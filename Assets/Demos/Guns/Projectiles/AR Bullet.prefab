@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2874951595318777191}
   - component: {fileID: 4357097984793040226}
   - component: {fileID: 5461775806315217947}
-  - component: {fileID: 8855859253057948906}
+  - component: {fileID: 5032693405850430466}
   - component: {fileID: 6163103858388018681}
   m_Layer: 9
   m_Name: AR Bullet
@@ -114,8 +114,8 @@ Rigidbody2D:
   m_SleepingMode: 2
   m_CollisionDetection: 1
   m_Constraints: 0
---- !u!58 &8855859253057948906
-CircleCollider2D:
+--- !u!61 &5032693405850430466
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -146,9 +146,19 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.047032207, y: 0.0032067522}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.5, y: 0.5}
+    newSize: {x: 0.2, y: 0.2}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
   serializedVersion: 2
-  m_Radius: 0.1
+  m_Size: {x: 0.13656923, y: 0.10877748}
+  m_EdgeRadius: 0
 --- !u!114 &6163103858388018681
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -167,12 +177,14 @@ MonoBehaviour:
   hitLayers:
     serializedVersion: 2
     m_Bits: 128
+  aoeEffectPrefab: {fileID: 0}
+  aoeEffectDuration: 0.5
   hasAOE: 0
   aoeRadius: 2
   aoeDamage: 5
   aoeDamagesFriendlies: 0
-  aoeEffectPrefab: {fileID: 0}
   impactEffectPrefab: {fileID: 7047845772572400419, guid: 2e3eb5c3786b8d249aa5f92e9a6c4e09, type: 3}
+  impactEffectDuration: 0.2
   trail: {fileID: 0}
   canPenetrate: 0
   maxPenetrations: 1

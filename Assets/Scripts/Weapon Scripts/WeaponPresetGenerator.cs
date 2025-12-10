@@ -145,9 +145,10 @@ public static class WeaponPrefabGenerator
             SetField(weapon, "projectileSpeed", 15f);
             SetField(weapon, "projectileDamage", 50f);
             SetField(weapon, "projectileScale", Vector3.one * 1.5f);
-            SetField(weapon, "reloadTime", 4f);
+            SetField(weapon, "reloadTime", 3f);
             SetField(weapon, "hasRecoil", true);
             SetField(weapon, "recoilAmount", 0.4f);
+            SetField(weapon, "AutomaticOn", false);
         }, new Color(0.8f, 0.2f, 0.2f));
     }
     
@@ -237,10 +238,6 @@ public static class WeaponPrefabGenerator
         SpriteRenderer sr = weapon.AddComponent<SpriteRenderer>();
         sr.sprite = AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/Knob.psd");
         sr.color = weaponColor;
-        
-        // Add box collider (not trigger, just for physics)
-        BoxCollider2D col = weapon.AddComponent<BoxCollider2D>();
-        col.size = new Vector2(1f, 0.3f);
         
         // Add weapon component
         RangedWeapon rangedWeapon = weapon.AddComponent<RangedWeapon>();

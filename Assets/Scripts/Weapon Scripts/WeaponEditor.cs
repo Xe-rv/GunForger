@@ -21,6 +21,9 @@ public class WeaponEditor : Editor
     private SerializedProperty projectilesPerShot;
     private SerializedProperty projectileSpread;
     
+    private bool showProjectileSettings = true;
+    private Editor projectileEditor;
+    
     void OnEnable()
     {
         weaponName = serializedObject.FindProperty("weaponName");
@@ -36,6 +39,14 @@ public class WeaponEditor : Editor
         projectilePrefab = serializedObject.FindProperty("projectilePrefab");
         projectilesPerShot = serializedObject.FindProperty("projectilesPerShot");
         projectileSpread = serializedObject.FindProperty("projectileSpread");
+    }
+    
+    void OnDisable()
+    {
+        if (projectileEditor != null)
+        {
+            DestroyImmediate(projectileEditor);
+        }
     }
     
     public override void OnInspectorGUI()
@@ -62,6 +73,11 @@ public class WeaponEditor : Editor
         
         EditorGUILayout.Space();
         
+        // Projectile Settings Section
+        DrawProjectileSettings();
+        
+        EditorGUILayout.Space();
+        
         // Utility Buttons
         EditorGUILayout.BeginVertical(EditorStyles.helpBox);
         EditorGUILayout.LabelField("Weapon Utilities", EditorStyles.boldLabel);
@@ -79,6 +95,109 @@ public class WeaponEditor : Editor
         EditorGUILayout.EndVertical();
         
         serializedObject.ApplyModifiedProperties();
+    }
+    
+    void DrawProjectileSettings()
+    {
+        GameObject prefab = projectilePrefab.objectReferenceValue as GameObject;
+        
+        if (prefab == null)
+        {
+            EditorGUILayout.HelpBox("No projectile prefab assigned. Create one or assign an existing prefab.", MessageType.Warning);
+            return;
+        }
+        
+        Projectile projectile = prefab.GetComponent<Projectile>();
+        if (projectile == null)
+        {
+            EditorGUILayout.HelpBox("Assigned prefab doesn't have a Projectile component!", MessageType.Error);
+            return;
+        }
+        
+        EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+        
+        // Foldout header
+        showProjectileSettings = EditorGUILayout.Foldout(showProjectileSettings, "Projectile Settings", true, EditorStyles.foldoutHeader);
+        
+        if (showProjectileSettings)
+        {
+            EditorGUI.indentLevel++;
+            
+            // Create a serialized object for the projectile
+            SerializedObject projectileSO = new SerializedObject(projectile);
+            
+            // Projectile Properties
+            EditorGUILayout.LabelField("Projectile Properties", EditorStyles.boldLabel);
+            EditorGUILayout.PropertyField(projectileSO.FindProperty("damage"));
+            EditorGUILayout.PropertyField(projectileSO.FindProperty("speed"));
+            EditorGUILayout.PropertyField(projectileSO.FindProperty("lifetime"));
+            EditorGUILayout.PropertyField(projectileSO.FindProperty("hitLayers"));
+            
+            EditorGUILayout.Space();
+            
+            // Area of Effect
+            EditorGUILayout.LabelField("Area of Effect", EditorStyles.boldLabel);
+            EditorGUILayout.PropertyField(projectileSO.FindProperty("hasAOE"));
+            
+            if (projectileSO.FindProperty("hasAOE").boolValue)
+            {
+                EditorGUI.indentLevel++;
+                EditorGUILayout.PropertyField(projectileSO.FindProperty("aoeRadius"));
+                EditorGUILayout.PropertyField(projectileSO.FindProperty("aoeDamage"));
+                EditorGUILayout.PropertyField(projectileSO.FindProperty("aoeDamagesFriendlies"));
+                EditorGUILayout.PropertyField(projectileSO.FindProperty("aoeEffectPrefab"));
+                EditorGUILayout.PropertyField(projectileSO.FindProperty("aoeEffectDuration"));
+                EditorGUI.indentLevel--;
+            }
+            
+            EditorGUILayout.Space();
+            
+            // Visual Effects
+            EditorGUILayout.LabelField("Visual Effects", EditorStyles.boldLabel);
+            EditorGUILayout.PropertyField(projectileSO.FindProperty("impactEffectPrefab"));
+            EditorGUILayout.PropertyField(projectileSO.FindProperty("impactEffectDuration"));
+            EditorGUILayout.PropertyField(projectileSO.FindProperty("trail"));
+            
+            EditorGUILayout.Space();
+            
+            // Penetration
+            EditorGUILayout.LabelField("Penetration", EditorStyles.boldLabel);
+            EditorGUILayout.PropertyField(projectileSO.FindProperty("canPenetrate"));
+            
+            if (projectileSO.FindProperty("canPenetrate").boolValue)
+            {
+                EditorGUI.indentLevel++;
+                EditorGUILayout.PropertyField(projectileSO.FindProperty("maxPenetrations"));
+                EditorGUI.indentLevel--;
+            }
+            
+            EditorGUI.indentLevel--;
+            
+            // Apply changes to the projectile prefab
+            if (projectileSO.hasModifiedProperties)
+            {
+                projectileSO.ApplyModifiedProperties();
+                EditorUtility.SetDirty(projectile);
+                PrefabUtility.RecordPrefabInstancePropertyModifications(projectile);
+            }
+            
+            EditorGUILayout.Space();
+            
+            // Quick action buttons
+            EditorGUILayout.BeginHorizontal();
+            if (GUILayout.Button("Select Projectile Prefab"))
+            {
+                Selection.activeObject = prefab;
+                EditorGUIUtility.PingObject(prefab);
+            }
+            if (GUILayout.Button("Open Projectile Prefab"))
+            {
+                AssetDatabase.OpenAsset(prefab);
+            }
+            EditorGUILayout.EndHorizontal();
+        }
+        
+        EditorGUILayout.EndVertical();
     }
     
     float CalculateDPS(RangedWeapon weapon)
@@ -119,10 +238,9 @@ public class WeaponEditor : Editor
         Rigidbody2D rb = projectile.AddComponent<Rigidbody2D>();
         rb.gravityScale = 0;
         rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
-        rb.sleepMode = RigidbodySleepMode2D.NeverSleep;
         
-        CircleCollider2D col = projectile.AddComponent<CircleCollider2D>();
-        col.isTrigger = false; // Use collision, not trigger
+        BoxCollider2D col = projectile.AddComponent<BoxCollider2D>();
+        col.isTrigger = true; 
         
         projectile.AddComponent<Projectile>();
         

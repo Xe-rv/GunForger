@@ -282,7 +282,7 @@ public class RangedWeapon : MonoBehaviour
         Quaternion spreadRotation = Quaternion.Euler(0, 0, spreadAngle);
         Vector2 direction = spreadRotation * firePoint.right;
 
-        GameObject proj = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
+        GameObject proj = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity, this.transform.parent.parent);
         proj.transform.localScale = projectileScale;
 
         Projectile projectile = proj.GetComponent<Projectile>();

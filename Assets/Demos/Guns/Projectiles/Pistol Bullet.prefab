@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6790623035734282935}
   - component: {fileID: 639571368210852793}
   - component: {fileID: 7322995932423649129}
-  - component: {fileID: 7125454122046027523}
+  - component: {fileID: 2110112985332505886}
   - component: {fileID: 7941064940599046253}
   m_Layer: 0
   m_Name: Pistol Bullet
@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 26a2f2b03bd1dee4da76fb4f27be646a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: bf17ec36fda93f941b59e1e92cefa6f9, type: 3}
   m_Color: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -114,8 +114,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!58 &7125454122046027523
-CircleCollider2D:
+--- !u!61 &2110112985332505886
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -146,9 +146,19 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.04726378, y: 0.0014322177}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.5, y: 0.5}
+    newSize: {x: 0.2, y: 0.2}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
   serializedVersion: 2
-  m_Radius: 0.1
+  m_Size: {x: 0.13621224, y: 0.09610967}
+  m_EdgeRadius: 0
 --- !u!114 &7941064940599046253
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -167,12 +177,14 @@ MonoBehaviour:
   hitLayers:
     serializedVersion: 2
     m_Bits: 0
+  aoeEffectPrefab: {fileID: 0}
+  aoeEffectDuration: 0.5
   hasAOE: 0
   aoeRadius: 2
   aoeDamage: 5
   aoeDamagesFriendlies: 0
-  aoeEffectPrefab: {fileID: 0}
-  impactEffectPrefab: {fileID: 0}
+  impactEffectPrefab: {fileID: 7047845772572400419, guid: 2e3eb5c3786b8d249aa5f92e9a6c4e09, type: 3}
+  impactEffectDuration: 0.2
   trail: {fileID: 0}
   canPenetrate: 0
   maxPenetrations: 1
