@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 3a672f71c45a4b5478f09bad6c282b62, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 26a2f2b03bd1dee4da76fb4f27be646a, type: 3}
   m_Color: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -172,7 +172,7 @@ MonoBehaviour:
   aoeDamage: 5
   aoeDamagesFriendlies: 0
   aoeEffectPrefab: {fileID: 0}
-  impactEffectPrefab: {fileID: 0}
+  impactEffectPrefab: {fileID: 7047845772572400419, guid: 2e3eb5c3786b8d249aa5f92e9a6c4e09, type: 3}
   trail: {fileID: 0}
   canPenetrate: 0
   maxPenetrations: 1

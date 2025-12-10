@@ -13,14 +13,16 @@ public class Projectile : MonoBehaviour
     public LayerMask hitLayers;
 
     [Header("Area of Effect")]
+    public GameObject aoeEffectPrefab;
+    public float aoeEffectDuration = 0.5f;
     public bool hasAOE = false;
     public float aoeRadius = 2f;
     public float aoeDamage = 5f;
     public bool aoeDamagesFriendlies = false;
-    public GameObject aoeEffectPrefab;
 
     [Header("Visual Effects")]
     public GameObject impactEffectPrefab;
+    public float impactEffectDuration = 0.2f;
     public TrailRenderer trail;
 
     [Header("Penetration")]
@@ -81,14 +83,16 @@ public class Projectile : MonoBehaviour
 
             if (aoeEffectPrefab != null)
             {
-                Instantiate(aoeEffectPrefab, transform.position, Quaternion.identity);
+                GameObject effect = Instantiate(aoeEffectPrefab, transform.position, Quaternion.identity);
+                Destroy(effect, aoeEffectDuration);
             }
         }
 
         // Spawn impact effect
         if (impactEffectPrefab != null)
         {
-            Instantiate(impactEffectPrefab, transform.position, Quaternion.identity);
+            GameObject effect = Instantiate(impactEffectPrefab, transform.position, Quaternion.identity);
+            Destroy(effect, impactEffectDuration);
         }
 
         // Handle penetration
