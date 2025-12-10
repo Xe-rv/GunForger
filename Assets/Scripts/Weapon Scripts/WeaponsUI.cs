@@ -7,6 +7,7 @@ using TMPro;
 public class WeaponUI : MonoBehaviour
 {
     [Header("References")]
+    [SerializeField] private GameObject Player;
     [SerializeField] private RangedWeapon weapon;
 
     [Header("UI Elements")]
@@ -26,6 +27,11 @@ public class WeaponUI : MonoBehaviour
     void Start()
     {
         mainCamera = Camera.main;
+
+        if (Player != null)
+        {
+            weapon = Player.GetComponentInChildren<RangedWeapon>();
+        }
 
         if (weapon != null)
         {
@@ -93,7 +99,7 @@ public class WeaponUI : MonoBehaviour
     System.Collections.IEnumerator UpdateReloadProgress()
     {
         float startTime = Time.time;
-        float reloadDuration = 2f; // This should match weapon reload time
+        float reloadDuration = weapon.GetReloadTime(); // This should match weapon reload time
 
         while (weapon != null && weapon.IsReloading())
         {

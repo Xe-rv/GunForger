@@ -6,7 +6,7 @@ using UnityEngine.Events;
 public class RangedWeapon : MonoBehaviour
 {
     [Header("Weapon Identity")]
-    [SerializeField] private string weaponName = "Pistol";
+    [SerializeField] private string weaponName = "Gun";
     [SerializeField] private Sprite weaponSprite;
     [SerializeField] private bool SideScroller = true;
 
@@ -19,8 +19,8 @@ public class RangedWeapon : MonoBehaviour
 
     [Header("Fire Rate")]
     [SerializeField] private float fireRate = 0.1f; // Time between shots
-    [SerializeField] private bool isAutomatic = true;
-    [SerializeField] private bool isBurstFire = false;
+    [SerializeField] private bool AutomaticOn = true;
+    [SerializeField] private bool BurstFireOn= false;
     [SerializeField] private int burstCount = 3;
     [SerializeField] private float burstDelay = 0.1f;
 
@@ -52,7 +52,6 @@ public class RangedWeapon : MonoBehaviour
 
     [Header("Aiming")]
     [SerializeField] private bool rotateTowardsCursor = true;
-    [SerializeField] private bool flipSpriteWhenAimingLeft = true;
 
     [Header("Events")]
     public UnityEvent OnFire;
@@ -64,6 +63,9 @@ public class RangedWeapon : MonoBehaviour
     private bool isReloading;
     private int burstShotsFired;
     private bool isFiring;
+    private bool isSoundPlaying;
+    private bool isAutomatic;
+    private bool isBurstFire;
     private Camera mainCamera;
     private SpriteRenderer spriteRenderer;
     private AudioSource audioSource;
@@ -76,6 +78,16 @@ public class RangedWeapon : MonoBehaviour
         mainCamera = Camera.main;
         spriteRenderer = GetComponent<SpriteRenderer>();
         audioSource = GetComponent<AudioSource>();
+
+        if(AutomaticOn)
+            isAutomatic = true;
+        else
+            isAutomatic = false;
+
+        if(BurstFireOn)
+            isBurstFire = true;
+        else
+            isBurstFire = false;
 
         if (audioSource == null)
             audioSource = gameObject.AddComponent<AudioSource>();
@@ -194,6 +206,12 @@ public class RangedWeapon : MonoBehaviour
         if (currentMagazineAmmo <= 0)
         {
             PlaySound(emptySound);
+
+            // Prevents holding down the trigger sound spam
+            if (isAutomatic)
+            {
+                isAutomatic = false;
+            }
             return;
         }
 
@@ -363,6 +381,8 @@ public class RangedWeapon : MonoBehaviour
     {
         currentAmmo += amount;
         currentAmmo = Mathf.Min(currentAmmo, maxTotalAmmo);
+        if(AutomaticOn)
+            isAutomatic = true; // Re-enable automatic fire after empty sound
         OnAmmoChanged?.Invoke();
     }
 
@@ -370,6 +390,7 @@ public class RangedWeapon : MonoBehaviour
     public int GetCurrentTotalAmmo() => currentAmmo;
     public int GetMaxMagazineAmmo() => ammoPerMagazine;
     public int GetMaxTotalAmmo() => maxTotalAmmo;
+    public float GetReloadTime() => reloadTime;
     public bool IsReloading() => isReloading;
     public string GetWeaponName() => weaponName;
 

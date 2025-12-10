@@ -21,11 +21,6 @@ public class WeaponEditor : Editor
     private SerializedProperty projectilesPerShot;
     private SerializedProperty projectileSpread;
     
-    private bool showAmmoSettings = true;
-    private bool showFireSettings = true;
-    private bool showProjectileSettings = true;
-    private bool showEffectSettings = true;
-    
     void OnEnable()
     {
         weaponName = serializedObject.FindProperty("weaponName");
@@ -107,9 +102,6 @@ public class WeaponEditor : Editor
         firePoint.transform.SetParent(weapon.transform);
         firePoint.transform.localPosition = new Vector3(0.5f, 0, 0);
         
-        // Visualize in editor
-        Gizmos.color = Color.red;
-        
         Debug.Log("Fire Point created!");
         EditorUtility.SetDirty(weapon);
     }
@@ -124,9 +116,14 @@ public class WeaponEditor : Editor
         sr.color = Color.yellow;
         
         // Add components
-        projectile.AddComponent<Rigidbody2D>();
+        Rigidbody2D rb = projectile.AddComponent<Rigidbody2D>();
+        rb.gravityScale = 0;
+        rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
+        rb.sleepMode = RigidbodySleepMode2D.NeverSleep;
+        
         CircleCollider2D col = projectile.AddComponent<CircleCollider2D>();
-        col.isTrigger = true;
+        col.isTrigger = false; // Use collision, not trigger
+        
         projectile.AddComponent<Projectile>();
         
         projectile.transform.localScale = Vector3.one * 0.2f;
@@ -229,13 +226,6 @@ public class WeaponSystemMenu
         enemy.AddComponent<Health>();
         
         Selection.activeGameObject = enemy;
-    }
-    
-    [MenuItem("Assets/Create/2D Weapon System/Weapon Preset", false, 10)]
-    static void CreateWeaponPreset()
-    {
-        // Create a scriptable object for weapon presets in the future
-        Debug.Log("Weapon preset creation - To be implemented with ScriptableObject");
     }
 }
 #endif

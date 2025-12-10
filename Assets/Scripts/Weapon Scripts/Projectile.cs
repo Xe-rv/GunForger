@@ -54,12 +54,18 @@ public class Projectile : MonoBehaviour
     void OnTriggerEnter2D(Collider2D other)
     {
         // Don't hit the shooter
-        if (other.CompareTag(ownerTag))
+        if (!string.IsNullOrEmpty(ownerTag) && other.CompareTag(ownerTag))
             return;
 
-        // Check if we should hit this layer
+        // Check if we should hit this layer 
         if (((1 << other.gameObject.layer) & hitLayers) == 0)
-            return;
+        {
+            Destroy(gameObject);
+            Debug.Log($"Ignoring collision with {other.gameObject.name} on layer {LayerMask.LayerToName(other.gameObject.layer)}");
+            return; 
+        }
+
+        Debug.Log($"Hit {other.gameObject.name} on layer {LayerMask.LayerToName(other.gameObject.layer)}");
 
         // Apply direct damage
         Health health = other.GetComponent<Health>();
