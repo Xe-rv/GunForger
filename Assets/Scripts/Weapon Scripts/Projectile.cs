@@ -94,14 +94,7 @@ public class Projectile : MonoBehaviour
 
         if (impactEffectPrefab != null)
         {
-            // Calculate the normal direction from the projectile to the impact point
-            Vector2 hitNormal = (impactPoint - (Vector2)transform.position).normalized;
-
-            // Calculate angle from the normal vector
-            float angle = Mathf.Atan2(hitNormal.y, hitNormal.x) * Mathf.Rad2Deg;
-            Quaternion impactRotation = Quaternion.Euler(0, 0, angle);
-
-            GameObject effect = Instantiate(impactEffectPrefab, impactPoint, impactRotation);
+            GameObject effect = Instantiate(impactEffectPrefab, impactPoint, Quaternion.identity, this.transform.parent);
             Destroy(effect, impactEffectDuration);
         }
 

@@ -20,6 +20,11 @@ public class WeaponEditor : Editor
     private SerializedProperty projectilePrefab;
     private SerializedProperty projectilesPerShot;
     private SerializedProperty projectileSpread;
+    private SerializedProperty sideScroller;
+    private SerializedProperty topDown;
+    private SerializedProperty fullRotation;
+
+    private string[] gameStyleOptions = new string[] { "Side Scroller", "Top Down", "Full Rotation" };
     
     private bool showProjectileSettings = true;
     private Editor projectileEditor;
@@ -32,13 +37,16 @@ public class WeaponEditor : Editor
         maxTotalAmmo = serializedObject.FindProperty("maxTotalAmmo");
         infiniteAmmo = serializedObject.FindProperty("infiniteAmmo");
         fireRate = serializedObject.FindProperty("fireRate");
-        isAutomatic = serializedObject.FindProperty("isAutomatic");
-        isBurstFire = serializedObject.FindProperty("isBurstFire");
+        isAutomatic = serializedObject.FindProperty("AutomaticOn");
+        isBurstFire = serializedObject.FindProperty("BurstFireOn");
         burstCount = serializedObject.FindProperty("burstCount");
         reloadTime = serializedObject.FindProperty("reloadTime");
         projectilePrefab = serializedObject.FindProperty("projectilePrefab");
         projectilesPerShot = serializedObject.FindProperty("projectilesPerShot");
         projectileSpread = serializedObject.FindProperty("projectileSpread");
+        sideScroller = serializedObject.FindProperty("SideScroller");
+        topDown = serializedObject.FindProperty("TopDown");
+        fullRotation = serializedObject.FindProperty("FullRotation");
     }
     
     void OnDisable()
@@ -61,15 +69,95 @@ public class WeaponEditor : Editor
         EditorGUILayout.BeginVertical(EditorStyles.helpBox);
         RangedWeapon weapon = (RangedWeapon)target;
         EditorGUILayout.LabelField("Quick Stats", EditorStyles.boldLabel);
-        EditorGUILayout.LabelField($"DPS: {CalculateDPS(weapon):F1}");
-        EditorGUILayout.LabelField($"Shots Per Second: {1f / fireRate.floatValue:F2}");
-        EditorGUILayout.LabelField($"Magazine Duration: {ammoPerMagazine.intValue * fireRate.floatValue:F1}s");
+        
+        if (fireRate != null && fireRate.floatValue > 0)
+        {
+            EditorGUILayout.LabelField($"Shots Per Second: {1f / fireRate.floatValue:F2}");
+            
+            if (ammoPerMagazine != null)
+            {
+                EditorGUILayout.LabelField($"Magazine Duration: {ammoPerMagazine.intValue * fireRate.floatValue:F1}s");
+            }
+        }
         EditorGUILayout.EndVertical();
         
         EditorGUILayout.Space();
+
+        // Game Style Selection
+        if (sideScroller != null && topDown != null && fullRotation != null)
+        {
+            EditorGUILayout.LabelField("Game Style", EditorStyles.boldLabel);
+            EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+            
+            // Determine current selection
+            int currentSelection = 0;
+            if (topDown.boolValue && !sideScroller.boolValue && !fullRotation.boolValue)
+                currentSelection = 1;
+            else if (fullRotation.boolValue && !sideScroller.boolValue && !topDown.boolValue)
+                currentSelection = 2;
+            else
+                currentSelection = 0;
+            
+            // Show popup
+            int newSelection = EditorGUILayout.Popup("Game Type", currentSelection, gameStyleOptions);
+            
+            // Apply changes based on selection
+            if (newSelection != currentSelection)
+            {
+                if (newSelection == 0) // Side Scroller
+                {
+                    sideScroller.boolValue = true;
+                    topDown.boolValue = false;
+                    fullRotation.boolValue = false;
+                }
+                else if (newSelection == 1) // Top Down
+                {
+                    sideScroller.boolValue = false;
+                    topDown.boolValue = true;
+                    fullRotation.boolValue = false;
+                }
+                else // Full Rotation
+                {
+                    sideScroller.boolValue = false;
+                    topDown.boolValue = false;
+                    fullRotation.boolValue = true;
+                }
+            }
+            
+            string helpText = "";
+            switch (newSelection)
+            {
+                case 0:
+                    helpText = "Side Scroller: Weapon sprite flips based on aim direction";
+                    break;
+                case 1:
+                    helpText = "Top Down: Weapon rotates with player on a top-down view";
+                    break;
+                case 2:
+                    helpText = "Side Scroller (With Full Rotation): Weapon rotates 360° freely instead of flipping based on Direction";
+                    break;
+            }
+            
+            EditorGUILayout.HelpBox(helpText, MessageType.Info);
+            
+            EditorGUILayout.EndVertical();
+            EditorGUILayout.Space();
+        }
         
-        // Default inspector
-        DrawDefaultInspector();
+        // Draw all properties except TopDown, SideScroller, and FullRotation
+        SerializedProperty prop = serializedObject.GetIterator();
+        bool enterChildren = true;
+        
+        while (prop.NextVisible(enterChildren))
+        {
+            enterChildren = false;
+            
+            // Skip script reference and our hidden properties
+            if (prop.name == "m_Script" || prop.name == "TopDown" || prop.name == "SideScroller" || prop.name == "FullRotation")
+                continue;
+                
+            EditorGUILayout.PropertyField(prop, true);
+        }
         
         EditorGUILayout.Space();
         
@@ -99,6 +187,9 @@ public class WeaponEditor : Editor
     
     void DrawProjectileSettings()
     {
+        if (projectilePrefab == null)
+            return;
+            
         GameObject prefab = projectilePrefab.objectReferenceValue as GameObject;
         
         if (prefab == null)
@@ -128,47 +219,73 @@ public class WeaponEditor : Editor
             
             // Projectile Properties
             EditorGUILayout.LabelField("Projectile Properties", EditorStyles.boldLabel);
-            EditorGUILayout.PropertyField(projectileSO.FindProperty("damage"));
-            EditorGUILayout.PropertyField(projectileSO.FindProperty("speed"));
-            EditorGUILayout.PropertyField(projectileSO.FindProperty("lifetime"));
-            EditorGUILayout.PropertyField(projectileSO.FindProperty("hitLayers"));
+            SerializedProperty damageProp = projectileSO.FindProperty("damage");
+            SerializedProperty speedProp = projectileSO.FindProperty("speed");
+            SerializedProperty lifetimeProp = projectileSO.FindProperty("lifetime");
+            SerializedProperty hitLayersProp = projectileSO.FindProperty("hitLayers");
+            
+            if (damageProp != null) EditorGUILayout.PropertyField(damageProp);
+            if (speedProp != null) EditorGUILayout.PropertyField(speedProp);
+            if (lifetimeProp != null) EditorGUILayout.PropertyField(lifetimeProp);
+            if (hitLayersProp != null) EditorGUILayout.PropertyField(hitLayersProp);
             
             EditorGUILayout.Space();
             
             // Area of Effect
             EditorGUILayout.LabelField("Area of Effect", EditorStyles.boldLabel);
-            EditorGUILayout.PropertyField(projectileSO.FindProperty("hasAOE"));
+            SerializedProperty hasAOEProp = projectileSO.FindProperty("hasAOE");
             
-            if (projectileSO.FindProperty("hasAOE").boolValue)
+            if (hasAOEProp != null)
             {
-                EditorGUI.indentLevel++;
-                EditorGUILayout.PropertyField(projectileSO.FindProperty("aoeRadius"));
-                EditorGUILayout.PropertyField(projectileSO.FindProperty("aoeDamage"));
-                EditorGUILayout.PropertyField(projectileSO.FindProperty("aoeDamagesFriendlies"));
-                EditorGUILayout.PropertyField(projectileSO.FindProperty("aoeEffectPrefab"));
-                EditorGUILayout.PropertyField(projectileSO.FindProperty("aoeEffectDuration"));
-                EditorGUI.indentLevel--;
+                EditorGUILayout.PropertyField(hasAOEProp);
+                
+                if (hasAOEProp.boolValue)
+                {
+                    EditorGUI.indentLevel++;
+                    SerializedProperty aoeRadiusProp = projectileSO.FindProperty("aoeRadius");
+                    SerializedProperty aoeDamageProp = projectileSO.FindProperty("aoeDamage");
+                    SerializedProperty aoeDamagesFriendliesProp = projectileSO.FindProperty("aoeDamagesFriendlies");
+                    SerializedProperty aoeEffectPrefabProp = projectileSO.FindProperty("aoeEffectPrefab");
+                    SerializedProperty aoeEffectDurationProp = projectileSO.FindProperty("aoeEffectDuration");
+                    
+                    if (aoeRadiusProp != null) EditorGUILayout.PropertyField(aoeRadiusProp);
+                    if (aoeDamageProp != null) EditorGUILayout.PropertyField(aoeDamageProp);
+                    if (aoeDamagesFriendliesProp != null) EditorGUILayout.PropertyField(aoeDamagesFriendliesProp);
+                    if (aoeEffectPrefabProp != null) EditorGUILayout.PropertyField(aoeEffectPrefabProp);
+                    if (aoeEffectDurationProp != null) EditorGUILayout.PropertyField(aoeEffectDurationProp);
+                    EditorGUI.indentLevel--;
+                }
             }
             
             EditorGUILayout.Space();
             
             // Visual Effects
             EditorGUILayout.LabelField("Visual Effects", EditorStyles.boldLabel);
-            EditorGUILayout.PropertyField(projectileSO.FindProperty("impactEffectPrefab"));
-            EditorGUILayout.PropertyField(projectileSO.FindProperty("impactEffectDuration"));
-            EditorGUILayout.PropertyField(projectileSO.FindProperty("trail"));
+            SerializedProperty impactEffectProp = projectileSO.FindProperty("impactEffectPrefab");
+            SerializedProperty impactDurationProp = projectileSO.FindProperty("impactEffectDuration");
+            SerializedProperty trailProp = projectileSO.FindProperty("trail");
+            
+            if (impactEffectProp != null) EditorGUILayout.PropertyField(impactEffectProp);
+            if (impactDurationProp != null) EditorGUILayout.PropertyField(impactDurationProp);
+            if (trailProp != null) EditorGUILayout.PropertyField(trailProp);
             
             EditorGUILayout.Space();
             
             // Penetration
             EditorGUILayout.LabelField("Penetration", EditorStyles.boldLabel);
-            EditorGUILayout.PropertyField(projectileSO.FindProperty("canPenetrate"));
+            SerializedProperty canPenetrateProp = projectileSO.FindProperty("canPenetrate");
             
-            if (projectileSO.FindProperty("canPenetrate").boolValue)
+            if (canPenetrateProp != null)
             {
-                EditorGUI.indentLevel++;
-                EditorGUILayout.PropertyField(projectileSO.FindProperty("maxPenetrations"));
-                EditorGUI.indentLevel--;
+                EditorGUILayout.PropertyField(canPenetrateProp);
+                
+                if (canPenetrateProp.boolValue)
+                {
+                    EditorGUI.indentLevel++;
+                    SerializedProperty maxPenetrationsProp = projectileSO.FindProperty("maxPenetrations");
+                    if (maxPenetrationsProp != null) EditorGUILayout.PropertyField(maxPenetrationsProp);
+                    EditorGUI.indentLevel--;
+                }
             }
             
             EditorGUI.indentLevel--;
@@ -198,14 +315,6 @@ public class WeaponEditor : Editor
         }
         
         EditorGUILayout.EndVertical();
-    }
-    
-    float CalculateDPS(RangedWeapon weapon)
-    {
-        float shotsPerSecond = 1f / fireRate.floatValue;
-        SerializedProperty damage = serializedObject.FindProperty("projectileDamage");
-        SerializedProperty projPerShot = serializedObject.FindProperty("projectilesPerShot");
-        return shotsPerSecond * damage.floatValue * projPerShot.intValue;
     }
     
     void CreateFirePoint(RangedWeapon weapon)

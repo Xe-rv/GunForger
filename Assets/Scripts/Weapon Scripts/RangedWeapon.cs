@@ -8,7 +8,9 @@ public class RangedWeapon : MonoBehaviour
     [Header("Weapon Identity")]
     [SerializeField] private string weaponName = "Gun";
     [SerializeField] private Sprite weaponSprite;
+    [SerializeField] private bool TopDown = false;
     [SerializeField] private bool SideScroller = true;
+    [SerializeField] private bool FullRotation = true;
 
     [Header("Ammunition")]
     [SerializeField] private int ammoPerMagazine = 30;
@@ -102,6 +104,12 @@ public class RangedWeapon : MonoBehaviour
             firePoint = fp.transform;
         }
 
+        if (TopDown)
+        {
+            Debug.LogWarning("TopDown aiming mode selected");
+            firePoint.transform.rotation = Quaternion.Euler(0, 0, 90);
+        }
+
         currentAmmo = maxTotalAmmo;
         currentMagazineAmmo = ammoPerMagazine;
         originalPosition = transform.localPosition;
@@ -162,7 +170,7 @@ public class RangedWeapon : MonoBehaviour
         // Flip sprite if needed (ie, for side-scrolling shooters)
         if (SideScroller)
             GunFlipper(direction);
-        else 
+        else if (FullRotation)
             FirepointFlipper();
     }
 
@@ -254,7 +262,8 @@ public class RangedWeapon : MonoBehaviour
             SpawnProjectile(i);
         }
 
-        animator.SetTrigger(fireAnimationTrigger);
+        if (animator != null)
+            animator.SetTrigger(fireAnimationTrigger);
 
         PlaySound(fireSound);
 
@@ -336,7 +345,8 @@ public class RangedWeapon : MonoBehaviour
 
         PlaySound(reloadSound);
 
-        animator.SetBool("IsReloading", isReloading);
+        if (animator != null)
+            animator.SetBool("IsReloading", isReloading);
 
         yield return new WaitForSeconds(reloadTime);
 
@@ -354,7 +364,8 @@ public class RangedWeapon : MonoBehaviour
         }
 
         isReloading = false;
-        animator.SetBool("IsReloading", isReloading);
+        if (animator != null)
+            animator.SetBool("IsReloading", isReloading);
         OnReloadComplete?.Invoke();
     }
 
