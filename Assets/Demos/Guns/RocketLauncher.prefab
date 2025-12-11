@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7082030542520670583}
   - component: {fileID: 7456414442664279851}
+  - component: {fileID: 2926530405861620988}
   - component: {fileID: 5090793307702505362}
   m_Layer: 0
   m_Name: RocketLauncher
@@ -86,6 +87,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &2926530405861620988
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2228650548418616980}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 6dae6b9d400a9984894ed5d8f7033eaf, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &5090793307702505362
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -99,7 +121,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponName: RocketLauncher
-  weaponSprite: {fileID: 0}
+  weaponSprite: {fileID: -1053278660, guid: 238d850add7fc064d9f94db62c331d35, type: 3}
   SideScroller: 1
   ammoPerMagazine: 1
   maxTotalAmmo: 10
@@ -107,24 +129,25 @@ MonoBehaviour:
   currentMagazineAmmo: 0
   infiniteAmmo: 0
   fireRate: 2
-  AutomaticOn: 1
+  AutomaticOn: 0
   BurstFireOn: 0
   burstCount: 3
   burstDelay: 0.1
-  reloadTime: 4
+  reloadTime: 3
   autoReload: 1
-  projectilePrefab: {fileID: 0}
-  firePoint: {fileID: 0}
+  projectilePrefab: {fileID: 510534793545610147, guid: 25c1ec554bcfde84bab6079f448d03e0, type: 3}
+  firePoint: {fileID: 6501608286089775392}
   projectilesPerShot: 1
   projectileSpread: 0
   projectileSpeed: 15
   projectileDamage: 50
   projectileScale: {x: 1.5, y: 1.5, z: 1.5}
   muzzleFlashPrefab: {fileID: 0}
-  fireSound: {fileID: 0}
-  reloadSound: {fileID: 0}
-  emptySound: {fileID: 0}
-  animator: {fileID: 0}
+  muzzlePoint: {fileID: 0}
+  fireSound: {fileID: 8300000, guid: 81291cc252db01c42b0232251639b189, type: 3}
+  reloadSound: {fileID: 8300000, guid: 41dbbbab73c818f4ab37fa4704504ed0, type: 3}
+  emptySound: {fileID: 8300000, guid: bc4364db48892a74b8e4c298da12d20e, type: 3}
+  animator: {fileID: 2926530405861620988}
   fireAnimationTrigger: Fire
   hasRecoil: 1
   recoilAmount: 0.4
@@ -167,7 +190,7 @@ Transform:
   m_GameObject: {fileID: 9056305053272871949}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.74, y: -0.02, z: 0}
+  m_LocalPosition: {x: 0.841, y: 0.075, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

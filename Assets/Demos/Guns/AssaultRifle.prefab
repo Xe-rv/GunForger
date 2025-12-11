@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5364431732890381855}
   - component: {fileID: 1774627348727934332}
+  - component: {fileID: 682629002782420648}
   - component: {fileID: 3869401763209994080}
   m_Layer: 8
   m_Name: AssaultRifle
@@ -86,6 +87,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &682629002782420648
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1100128956743095997}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: f2e198019ba1b2843a70634419d8632e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &3869401763209994080
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -107,24 +129,25 @@ MonoBehaviour:
   currentMagazineAmmo: 0
   infiniteAmmo: 0
   fireRate: 0.08
-  isAutomatic: 1
-  isBurstFire: 0
+  AutomaticOn: 1
+  BurstFireOn: 0
   burstCount: 3
   burstDelay: 0.1
-  reloadTime: 2.5
+  reloadTime: 2.3
   autoReload: 1
   projectilePrefab: {fileID: 2191392742437351187, guid: 6f366dcb719780e439ee3ab701c9cc8f, type: 3}
-  firePoint: {fileID: 0}
+  firePoint: {fileID: 5312790833723119765}
   projectilesPerShot: 1
   projectileSpread: 5
   projectileSpeed: 25
   projectileDamage: 12
   projectileScale: {x: 1, y: 1, z: 1}
   muzzleFlashPrefab: {fileID: 0}
-  fireSound: {fileID: 0}
-  reloadSound: {fileID: 0}
-  emptySound: {fileID: 0}
-  animator: {fileID: 0}
+  muzzlePoint: {fileID: 0}
+  fireSound: {fileID: 8300000, guid: 08c2e1bba19278140a3da02a1a66551c, type: 3}
+  reloadSound: {fileID: 8300000, guid: 94d5907e8991c6f4e9150f25e42c9753, type: 3}
+  emptySound: {fileID: 8300000, guid: a60c90e4e652823449363fda70e9f57b, type: 3}
+  animator: {fileID: 682629002782420648}
   fireAnimationTrigger: Fire
   hasRecoil: 1
   recoilAmount: 0.08
@@ -167,7 +190,7 @@ Transform:
   m_GameObject: {fileID: 3573800007002335191}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.5, y: 0, z: 0}
+  m_LocalPosition: {x: 0.5, y: 0.228, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
