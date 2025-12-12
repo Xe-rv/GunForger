@@ -27,6 +27,26 @@ public class WeaponUI : MonoBehaviour
     {
         mainCamera = Camera.main;
 
+        if (reloadIndicator != null)
+        reloadIndicator.SetActive(false);
+
+        if (crosshairText != null)
+        {
+            crosshairText.text = crosshairCharacter;
+            crosshairText.color = crosshairColor;
+            crosshairText.gameObject.SetActive(showCrosshair);
+        }
+
+        Cursor.visible = !showCrosshair;
+    }
+
+    void Update()
+    {
+        if (crosshairText != null && showCrosshair)
+        {
+            crosshairText.transform.position = Input.mousePosition;
+        }
+
         if (Player != null)
         {
             weapon = Player.GetComponentInChildren<RangedWeapon>();
@@ -44,26 +64,6 @@ public class WeaponUI : MonoBehaviour
         {
             weaponNameText.text = string.Empty;
             ammoText.text = string.Empty;
-        }
-
-            if (reloadIndicator != null)
-            reloadIndicator.SetActive(false);
-
-        if (crosshairText != null)
-        {
-            crosshairText.text = crosshairCharacter;
-            crosshairText.color = crosshairColor;
-            crosshairText.gameObject.SetActive(showCrosshair);
-        }
-
-        Cursor.visible = !showCrosshair;
-    }
-
-    void Update()
-    {
-        if (crosshairText != null && showCrosshair)
-        {
-            crosshairText.transform.position = Input.mousePosition;
         }
     }
 

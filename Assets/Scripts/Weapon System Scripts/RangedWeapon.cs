@@ -384,8 +384,19 @@ public class RangedWeapon : MonoBehaviour
 
     void ApplyRecoil()
     {
-        if(SideScroller || FullRotation)
-            recoilOffset = -firePoint.right * recoilAmount;
+        if (SideScroller || FullRotation)
+        {
+            if (Player.transform.localScale.x < 0)
+                recoilOffset = firePoint.right * recoilAmount;
+            else
+                recoilOffset = -firePoint.right * recoilAmount;
+        }
+        else
+        {
+            Vector2 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector2 shootDirection = (mouseWorldPos - (Vector2)transform.position).normalized;
+            recoilOffset = transform.InverseTransformDirection(-shootDirection) * recoilAmount;
+        }
     }
 
     void HandleRecoilRecovery()
@@ -394,6 +405,10 @@ public class RangedWeapon : MonoBehaviour
         {
             recoilOffset = Vector3.Lerp(recoilOffset, Vector3.zero, Time.deltaTime * recoilRecoverySpeed);
             transform.localPosition = originalPosition + recoilOffset;
+        }
+        else
+        {
+            transform.localPosition = originalPosition;
         }
     }
 

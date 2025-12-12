@@ -27,15 +27,19 @@ public class Projectile : MonoBehaviour
 
     private Rigidbody2D rb;
     private string ownerTag;
+    private Vector2 lastPosition;
+    private bool hasHit = false;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         rb.gravityScale = 0;
+        rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
     }
 
     void Start()
     {
+        lastPosition = transform.position;
         Destroy(gameObject, lifetime);
     }
 
@@ -48,24 +52,72 @@ public class Projectile : MonoBehaviour
         transform.rotation = Quaternion.Euler(0, 0, angle);
     }
 
+    void FixedUpdate()
+    {
+        if (!hasHit)
+        {
+            CheckRaycastHit();
+            lastPosition = transform.position;
+        }
+    }
+
+    void CheckRaycastHit()
+    {
+        Vector2 currentPosition = transform.position;
+        Vector2 direction = currentPosition - lastPosition;
+        float distance = direction.magnitude;
+
+        if (distance > 0)
+        {
+            RaycastHit2D hit = Physics2D.Raycast(lastPosition, direction.normalized, distance, hitLayers);
+
+            if (hit.collider != null)
+            {
+                // Don't hit the owner
+                if (!string.IsNullOrEmpty(ownerTag) && hit.collider.CompareTag(ownerTag))
+                    return;
+
+                if (hit.collider.CompareTag("Player") && !aoeDamagesFriendlies && hasAOE)
+                    return;
+
+                Debug.Log($"Raycast Hit {hit.collider.gameObject.name} on layer {LayerMask.LayerToName(hit.collider.gameObject.layer)}");
+
+                hasHit = true;
+                ProcessHit(hit.collider, hit.point);
+            }
+        }
+    }
+
     void OnTriggerEnter2D(Collider2D other)
     {
-        // Don't hit the gun
+        // Skip if we already processed a hit via raycast
+        if (hasHit)
+            return;
+
+        // Don't hit the owner
         if (!string.IsNullOrEmpty(ownerTag) && other.CompareTag(ownerTag))
             return;
 
         // Check if we should hit this layer 
-        if (((1 << other.gameObject.layer) & hitLayers) == 0 && !hasAOE)
+        if (((1 << other.gameObject.layer) & hitLayers) == 0)
         {
             Debug.Log($"Ignoring collision with {other.gameObject.name} on layer {LayerMask.LayerToName(other.gameObject.layer)}");
             return;
-        } else if (other.CompareTag("Player") && !aoeDamagesFriendlies)
+        }
+        else if (other.CompareTag("Player") && !aoeDamagesFriendlies)
         {
             return;
         }
 
-        Debug.Log($"Hit {other.gameObject.name} on layer {LayerMask.LayerToName(other.gameObject.layer)}");
+        Debug.Log($"Trigger Hit {other.gameObject.name} on layer {LayerMask.LayerToName(other.gameObject.layer)}");
 
+        hasHit = true;
+        Vector2 impactPoint = other.ClosestPoint(transform.position);
+        ProcessHit(other, impactPoint);
+    }
+
+    void ProcessHit(Collider2D other, Vector2 impactPoint)
+    {
         // Apply direct damage
         Health health = other.GetComponent<Health>();
         if (health != null)
@@ -73,20 +125,16 @@ public class Projectile : MonoBehaviour
             health.TakeDamage(damage);
         }
 
-        Vector2 impactPoint = other.ClosestPoint(transform.position);
-
         if (hasAOE)
         {
-            ApplyAOEDamage(impactPoint, other.gameObject); 
-
             if (aoeEffectPrefab != null)
             {
-                GameObject effect = Instantiate(aoeEffectPrefab, impactPoint, Quaternion.identity, this.transform.parent);
+                GameObject effect = Instantiate(aoeEffectPrefab, impactPoint, Quaternion.identity);
                 Destroy(effect, aoeEffectDuration);
             }
-        }
 
-        Destroy(gameObject);
+            ApplyAOEDamage(impactPoint, other.gameObject);
+        }
 
         if (impactEffectPrefab != null)
         {
@@ -98,8 +146,9 @@ public class Projectile : MonoBehaviour
             GameObject effect = Instantiate(impactEffectPrefab, impactPoint, impactRotation);
             Destroy(effect, impactEffectDuration);
         }
-    }
 
+        Destroy(gameObject);
+    }
 
     void ApplyAOEDamage(Vector2 center, GameObject directHitTarget)
     {
@@ -119,8 +168,8 @@ public class Projectile : MonoBehaviour
             Health health = hit.GetComponent<Health>();
             if (health != null)
             {
-                float distance = Vector3.Distance(center, transform.position);
-                
+                float distance = Vector3.Distance(center, hit.transform.position);
+
                 // Calculate falloff: 100% damage at center, 0% at edge
                 float damageMultiplier = Mathf.InverseLerp(aoeRadius, 0, distance);
 
@@ -130,8 +179,7 @@ public class Projectile : MonoBehaviour
         }
     }
 
-
-    void OnDrawGizmosSelected()
+    void OnDrawGizmos()
     {
         if (hasAOE)
         {

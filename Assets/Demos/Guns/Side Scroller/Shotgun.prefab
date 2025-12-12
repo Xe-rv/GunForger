@@ -59,7 +59,7 @@ Transform:
   m_GameObject: {fileID: 3365492868353482094}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.61, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -105,8 +105,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 800119777
-  m_SortingLayer: 3
-  m_SortingOrder: 0
+  m_SortingLayer: 4
+  m_SortingOrder: 1
   m_Sprite: {fileID: -1160005577, guid: 516c2fef99c40cb428758ee0ec54d829, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -151,6 +151,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f03260638e4d0e47aedbd2640b8f1ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PlayerTag: Player
   weaponName: Remington 870
   weaponSprite: {fileID: -1160005577, guid: 516c2fef99c40cb428758ee0ec54d829, type: 3}
   TopDown: 0
@@ -173,7 +174,7 @@ MonoBehaviour:
   firePoint: {fileID: 3818002256342262327}
   projectilesPerShot: 5
   projectileSpread: 10
-  projectileSpeed: 15
+  projectileSpeed: 25
   projectileDamage: 20
   projectileScale: {x: 1, y: 1, z: 1}
   fireSound: {fileID: 8300000, guid: e46f4ee0625656249947107514a542f6, type: 3}
@@ -182,7 +183,7 @@ MonoBehaviour:
   animator: {fileID: 3264839887890015813}
   fireAnimationTrigger: Fire
   hasRecoil: 1
-  recoilAmount: 0.2
+  recoilAmount: 0.8
   recoilRecoverySpeed: 5
   rotateTowardsCursor: 1
   OnFire:

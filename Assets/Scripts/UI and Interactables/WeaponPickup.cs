@@ -159,7 +159,6 @@ public class WeaponPickup : MonoBehaviour
 
         // Instantiate new weapon
         GameObject newWeapon = Instantiate(weaponPrefab, attachPoint);
-        newWeapon.transform.localPosition = Vector3.zero;
         newWeapon.transform.localRotation = Quaternion.identity;
 
         Debug.Log($"Equipped: {newWeapon.name}");
