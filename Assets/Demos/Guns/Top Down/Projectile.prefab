@@ -101,7 +101,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -111,7 +111,7 @@ Rigidbody2D:
     serializedVersion: 2
     m_Bits: 0
   m_Interpolate: 0
-  m_SleepingMode: 1
+  m_SleepingMode: 0
   m_CollisionDetection: 1
   m_Constraints: 0
 --- !u!61 &6027826200440985698
@@ -172,13 +172,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 10
-  speed: 20
+  speed: 10
   lifetime: 5
   hitLayers:
     serializedVersion: 2
     m_Bits: 128
-  raycastDistance: 0.5
-  debugRaycast: 1
   aoeEffectPrefab: {fileID: 0}
   aoeEffectDuration: 0.5
   hasAOE: 0
@@ -188,5 +186,3 @@ MonoBehaviour:
   impactEffectPrefab: {fileID: 7047845772572400419, guid: 2e3eb5c3786b8d249aa5f92e9a6c4e09, type: 3}
   impactEffectDuration: 0.2
   trail: {fileID: 0}
-  canPenetrate: 0
-  maxPenetrations: 1

@@ -24,8 +24,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1752376243632962759}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.5, y: 0, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.002, y: 0.095, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -103,13 +103,13 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  m_SortingLayerID: 800119777
+  m_SortingLayer: 2
+  m_SortingOrder: 2
+  m_Sprite: {fileID: -1698129331, guid: 5eb8148c4d10224489d11acc8815434d, type: 3}
   m_Color: {r: 0.9, g: 0.9, b: 0.3, a: 1}
   m_FlipX: 0
-  m_FlipY: 0
+  m_FlipY: 1
   m_DrawMode: 0
   m_Size: {x: 0.2, y: 0.2}
   m_AdaptiveModeThreshold: 0.5
@@ -131,12 +131,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponName: SMG
   weaponSprite: {fileID: 0}
+  TopDown: 1
   SideScroller: 0
+  FullRotation: 0
   ammoPerMagazine: 40
   maxTotalAmmo: 400
   currentAmmo: 0
   currentMagazineAmmo: 0
   infiniteAmmo: 0
+  infiniteMagazines: 0
   fireRate: 0.05
   AutomaticOn: 1
   BurstFireOn: 0
@@ -144,16 +147,16 @@ MonoBehaviour:
   burstDelay: 0.1
   reloadTime: 2
   autoReload: 1
-  projectilePrefab: {fileID: 0}
-  firePoint: {fileID: 0}
+  projectilePrefab: {fileID: 98235976442781873, guid: 80f2e3bea13917a40a0b916f6333845e, type: 3}
+  firePoint: {fileID: 1196619949617849730}
   projectilesPerShot: 1
   projectileSpread: 10
   projectileSpeed: 22
   projectileDamage: 8
   projectileScale: {x: 1, y: 1, z: 1}
-  fireSound: {fileID: 0}
-  reloadSound: {fileID: 0}
-  emptySound: {fileID: 0}
+  fireSound: {fileID: 8300000, guid: 08c2e1bba19278140a3da02a1a66551c, type: 3}
+  reloadSound: {fileID: 8300000, guid: 94d5907e8991c6f4e9150f25e42c9753, type: 3}
+  emptySound: {fileID: 8300000, guid: a60c90e4e652823449363fda70e9f57b, type: 3}
   animator: {fileID: 0}
   fireAnimationTrigger: Fire
   hasRecoil: 1

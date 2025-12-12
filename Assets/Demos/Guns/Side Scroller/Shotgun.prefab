@@ -104,8 +104,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 800119777
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: -1160005577, guid: 516c2fef99c40cb428758ee0ec54d829, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -151,14 +151,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f03260638e4d0e47aedbd2640b8f1ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponName: Shotgun
+  weaponName: Remington 870
   weaponSprite: {fileID: -1160005577, guid: 516c2fef99c40cb428758ee0ec54d829, type: 3}
+  TopDown: 0
   SideScroller: 1
+  FullRotation: 1
   ammoPerMagazine: 8
-  maxTotalAmmo: 64
+  maxTotalAmmo: 36
   currentAmmo: 0
   currentMagazineAmmo: 0
   infiniteAmmo: 0
+  infiniteMagazines: 0
   fireRate: 0.8
   AutomaticOn: 1
   BurstFireOn: 0
@@ -168,10 +171,10 @@ MonoBehaviour:
   autoReload: 1
   projectilePrefab: {fileID: 3570357914219932395, guid: 8859c8bd5376dfc44ae85bfeff1d540f, type: 3}
   firePoint: {fileID: 3818002256342262327}
-  projectilesPerShot: 8
-  projectileSpread: 25
-  projectileSpeed: 18
-  projectileDamage: 8
+  projectilesPerShot: 5
+  projectileSpread: 10
+  projectileSpeed: 15
+  projectileDamage: 20
   projectileScale: {x: 1, y: 1, z: 1}
   fireSound: {fileID: 8300000, guid: e46f4ee0625656249947107514a542f6, type: 3}
   reloadSound: {fileID: 8300000, guid: 5a475d354ca80f04190ff33665ac2153, type: 3}

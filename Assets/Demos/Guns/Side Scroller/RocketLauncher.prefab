@@ -73,8 +73,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 800119777
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: -1053278660, guid: 238d850add7fc064d9f94db62c331d35, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -122,12 +122,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponName: RocketLauncher
   weaponSprite: {fileID: -1053278660, guid: 238d850add7fc064d9f94db62c331d35, type: 3}
+  TopDown: 0
   SideScroller: 1
+  FullRotation: 1
   ammoPerMagazine: 1
   maxTotalAmmo: 10
   currentAmmo: 0
   currentMagazineAmmo: 0
   infiniteAmmo: 0
+  infiniteMagazines: 0
   fireRate: 2
   AutomaticOn: 0
   BurstFireOn: 0
@@ -142,8 +145,6 @@ MonoBehaviour:
   projectileSpeed: 15
   projectileDamage: 50
   projectileScale: {x: 1.5, y: 1.5, z: 1.5}
-  muzzleFlashPrefab: {fileID: 0}
-  muzzlePoint: {fileID: 0}
   fireSound: {fileID: 8300000, guid: 81291cc252db01c42b0232251639b189, type: 3}
   reloadSound: {fileID: 8300000, guid: 41dbbbab73c818f4ab37fa4704504ed0, type: 3}
   emptySound: {fileID: 8300000, guid: bc4364db48892a74b8e4c298da12d20e, type: 3}

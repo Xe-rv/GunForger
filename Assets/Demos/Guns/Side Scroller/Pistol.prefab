@@ -73,8 +73,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 800119777
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 221785063, guid: 9d72d3325ac277e4b890f2527e7a023d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -120,17 +120,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f03260638e4d0e47aedbd2640b8f1ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponName: Pistol
+  weaponName: Glock 17
   weaponSprite: {fileID: 21300000, guid: b34acaa763a6a4d4fb9420c67814a8b1, type: 3}
+  TopDown: 0
   SideScroller: 1
+  FullRotation: 1
   ammoPerMagazine: 15
-  maxTotalAmmo: 300
+  maxTotalAmmo: 45
   currentAmmo: 0
   currentMagazineAmmo: 0
   infiniteAmmo: 0
+  infiniteMagazines: 0
   fireRate: 0.2
-  isAutomatic: 1
-  isBurstFire: 0
+  AutomaticOn: 1
+  BurstFireOn: 0
   burstCount: 3
   burstDelay: 0.1
   reloadTime: 2
@@ -139,10 +142,9 @@ MonoBehaviour:
   firePoint: {fileID: 598513729393428726}
   projectilesPerShot: 1
   projectileSpread: 5
-  projectileSpeed: 20
+  projectileSpeed: 15
   projectileDamage: 10
   projectileScale: {x: 1, y: 1, z: 1}
-  muzzleFlashPrefab: {fileID: 0}
   fireSound: {fileID: 8300000, guid: 08c2e1bba19278140a3da02a1a66551c, type: 3}
   reloadSound: {fileID: 8300000, guid: 5c410b602c9018e40a24e62dd6a9a901, type: 3}
   emptySound: {fileID: 0}

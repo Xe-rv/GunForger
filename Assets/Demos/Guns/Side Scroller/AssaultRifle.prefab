@@ -73,8 +73,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 800119777
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 731668948, guid: cb25dbaeb5b19a146afc20dba6e46fc8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -120,14 +120,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f03260638e4d0e47aedbd2640b8f1ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponName: AssaultRifle
+  weaponName: AK-47
   weaponSprite: {fileID: 731668948, guid: cb25dbaeb5b19a146afc20dba6e46fc8, type: 3}
+  TopDown: 0
   SideScroller: 1
+  FullRotation: 1
   ammoPerMagazine: 30
-  maxTotalAmmo: 300
+  maxTotalAmmo: 120
   currentAmmo: 0
   currentMagazineAmmo: 0
   infiniteAmmo: 0
+  infiniteMagazines: 0
   fireRate: 0.08
   AutomaticOn: 1
   BurstFireOn: 0
@@ -139,11 +142,9 @@ MonoBehaviour:
   firePoint: {fileID: 5312790833723119765}
   projectilesPerShot: 1
   projectileSpread: 5
-  projectileSpeed: 25
+  projectileSpeed: 15
   projectileDamage: 12
   projectileScale: {x: 1, y: 1, z: 1}
-  muzzleFlashPrefab: {fileID: 0}
-  muzzlePoint: {fileID: 0}
   fireSound: {fileID: 8300000, guid: 08c2e1bba19278140a3da02a1a66551c, type: 3}
   reloadSound: {fileID: 8300000, guid: 94d5907e8991c6f4e9150f25e42c9753, type: 3}
   emptySound: {fileID: 8300000, guid: a60c90e4e652823449363fda70e9f57b, type: 3}
