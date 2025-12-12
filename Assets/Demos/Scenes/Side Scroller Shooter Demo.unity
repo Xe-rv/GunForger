@@ -24723,7 +24723,6 @@ MonoBehaviour:
   interactionRange: 1.2
   weaponAttachPoint: {fileID: 0}
   playerTag: Player
-  pauseGameOnMenu: 1
 --- !u!1 &1245957289
 GameObject:
   m_ObjectHideFlags: 0

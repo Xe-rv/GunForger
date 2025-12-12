@@ -6,6 +6,7 @@ using UnityEngine.Events;
 public class RangedWeapon : MonoBehaviour
 {
     [Header("Weapon Identity")]
+    [SerializeField] private string PlayerTag = "Player";
     [SerializeField] private string weaponName = "Gun";
     [SerializeField] private Sprite weaponSprite;
     [SerializeField] private bool TopDown = false;
@@ -70,6 +71,7 @@ public class RangedWeapon : MonoBehaviour
     private bool isBurstFire;
     private Camera mainCamera;
     private SpriteRenderer spriteRenderer;
+    private GameObject Player;
     private AudioSource audioSource;
     private Vector3 originalPosition;
     private Vector3 recoilOffset;
@@ -103,6 +105,11 @@ public class RangedWeapon : MonoBehaviour
             fp.transform.SetParent(transform);
             firePoint = fp.transform;
         }
+
+        if (GameObject.FindGameObjectWithTag(PlayerTag) != null){
+            Player = GameObject.FindGameObjectWithTag(PlayerTag);
+        }
+
 
         if (TopDown)
         {
@@ -189,7 +196,7 @@ public class RangedWeapon : MonoBehaviour
 
     void GunFlipper(Vector2 dir)
     {
-        if (transform.parent.parent.localScale.x < 0)
+        if (Player.transform.localScale.x < 0)
         {
             spriteRenderer.flipX = true;
             if (dir.x < 0)
@@ -408,7 +415,7 @@ public class RangedWeapon : MonoBehaviour
         OnAmmoChanged?.Invoke();
     }
 
-    public int GetCurrentMagazineAmmo() => currentMagazineAmmo;
+    public int GetCurrentMagazineAmmo() => currentMagazineAmmo;  
     public int GetCurrentTotalAmmo() => currentAmmo;
     public int GetMaxMagazineAmmo() => ammoPerMagazine;
     public int GetMaxTotalAmmo() => maxTotalAmmo;

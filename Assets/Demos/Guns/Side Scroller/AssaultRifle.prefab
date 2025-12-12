@@ -120,6 +120,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f03260638e4d0e47aedbd2640b8f1ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PlayerTag: Player
   weaponName: AK-47
   weaponSprite: {fileID: 731668948, guid: cb25dbaeb5b19a146afc20dba6e46fc8, type: 3}
   TopDown: 0
@@ -142,7 +143,7 @@ MonoBehaviour:
   firePoint: {fileID: 5312790833723119765}
   projectilesPerShot: 1
   projectileSpread: 5
-  projectileSpeed: 15
+  projectileSpeed: 10
   projectileDamage: 12
   projectileScale: {x: 1, y: 1, z: 1}
   fireSound: {fileID: 8300000, guid: 08c2e1bba19278140a3da02a1a66551c, type: 3}

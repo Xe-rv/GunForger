@@ -8,34 +8,28 @@ public class WeaponPickup : MonoBehaviour
 {
     [Header("Weapon Prefabs")]
     [SerializeField] private List<GameObject> weaponPrefabs = new List<GameObject>();
-
+    
     [Header("UI References")]
     [SerializeField] private GameObject popupMenuPanel;
     [SerializeField] private GameObject weaponButtonPrefab;
     [SerializeField] private Transform buttonContainer;
     [SerializeField] private TextMeshProUGUI promptText;
     [SerializeField] private KeyCode interactKey = KeyCode.E;
-
+    
     [Header("Settings")]
     [SerializeField] private float interactionRange = 2f;
     [SerializeField] private Transform weaponAttachPoint; // Where weapon attaches to player
     [SerializeField] private string playerTag = "Player";
-    [SerializeField] private bool pauseGameOnMenu = false; // Set to false - UI doesn't work when paused!
-
+    
     private GameObject player;
     private bool playerInRange = false;
     private bool menuOpen = false;
-    private Canvas menuCanvas;
 
     void Start()
     {
         if (popupMenuPanel != null)
-        {
             popupMenuPanel.SetActive(false);
-            // Get or add canvas
-            menuCanvas = popupMenuPanel.GetComponentInParent<Canvas>();
-        }
-
+            
         if (promptText != null)
             promptText.gameObject.SetActive(false);
     }
@@ -43,7 +37,7 @@ public class WeaponPickup : MonoBehaviour
     void Update()
     {
         CheckPlayerProximity();
-
+        
         if (playerInRange && !menuOpen)
         {
             if (promptText != null)
@@ -51,7 +45,7 @@ public class WeaponPickup : MonoBehaviour
                 promptText.gameObject.SetActive(true);
                 promptText.text = $"Press [{interactKey}] to select weapon";
             }
-
+            
             if (Input.GetKeyDown(interactKey))
             {
                 OpenWeaponMenu();
@@ -61,7 +55,7 @@ public class WeaponPickup : MonoBehaviour
         {
             promptText.gameObject.SetActive(false);
         }
-
+        
         // Close menu with Escape
         if (menuOpen && Input.GetKeyDown(KeyCode.Escape))
         {
@@ -91,25 +85,23 @@ public class WeaponPickup : MonoBehaviour
 
         menuOpen = true;
         popupMenuPanel.SetActive(true);
-
-        if (pauseGameOnMenu)
-            Time.timeScale = 0f;
-
+        Time.timeScale = 0f; // Pause game
+        
         // Clear existing buttons
         foreach (Transform child in buttonContainer)
         {
             Destroy(child.gameObject);
         }
-
+        
         // Create button for each weapon
         for (int i = 0; i < weaponPrefabs.Count; i++)
         {
             int weaponIndex = i; // Capture for lambda
             GameObject buttonObj = Instantiate(weaponButtonPrefab, buttonContainer);
-
+            
             Button button = buttonObj.GetComponent<Button>();
             TextMeshProUGUI buttonText = buttonObj.GetComponentInChildren<TextMeshProUGUI>();
-
+            
             if (weaponPrefabs[weaponIndex] != null)
             {
                 RangedWeapon weapon = weaponPrefabs[weaponIndex].GetComponent<RangedWeapon>();
@@ -122,34 +114,22 @@ public class WeaponPickup : MonoBehaviour
                     buttonText.text = weaponPrefabs[weaponIndex].name;
                 }
             }
-
+            
             if (button != null)
             {
-                button.onClick.RemoveAllListeners();
                 button.onClick.AddListener(() => SelectWeapon(weaponIndex));
-
-                // Debug to verify button setup
-                Debug.Log($"Created button for weapon {weaponIndex}: {buttonText?.text}");
             }
         }
     }
 
     void SelectWeapon(int weaponIndex)
     {
-        Debug.Log($"SelectWeapon called with index: {weaponIndex}");
-
         if (weaponIndex < 0 || weaponIndex >= weaponPrefabs.Count)
-        {
-            Debug.LogWarning($"Invalid weapon index: {weaponIndex}");
             return;
-        }
 
         GameObject weaponPrefab = weaponPrefabs[weaponIndex];
         if (weaponPrefab == null)
-        {
-            Debug.LogWarning($"Weapon prefab at index {weaponIndex} is null!");
             return;
-        }
 
         // Find or create weapon attach point
         Transform attachPoint = weaponAttachPoint;
@@ -161,7 +141,7 @@ public class WeaponPickup : MonoBehaviour
             {
                 GameObject holderObj = new GameObject("WeaponHolder");
                 holderObj.transform.SetParent(player.transform);
-                holderObj.transform.localPosition = new Vector3(0.78f, 0f, 0f);
+                holderObj.transform.localPosition = Vector3.zero;
                 holderObj.transform.localRotation = Quaternion.identity;
                 attachPoint = holderObj.transform;
             }
@@ -172,12 +152,9 @@ public class WeaponPickup : MonoBehaviour
         }
 
         // Destroy existing weapons
-        if (attachPoint != null)
+        foreach (Transform child in attachPoint)
         {
-            foreach (Transform child in attachPoint)
-            {
-                Destroy(child.gameObject);
-            }
+            Destroy(child.gameObject);
         }
 
         // Instantiate new weapon
@@ -185,21 +162,17 @@ public class WeaponPickup : MonoBehaviour
         newWeapon.transform.localPosition = Vector3.zero;
         newWeapon.transform.localRotation = Quaternion.identity;
 
-        Debug.Log($"Successfully equipped: {newWeapon.name}");
-
+        Debug.Log($"Equipped: {newWeapon.name}");
+        
         CloseWeaponMenu();
     }
 
     void CloseWeaponMenu()
     {
-        Debug.Log("Closing weapon menu");
         menuOpen = false;
-
         if (popupMenuPanel != null)
             popupMenuPanel.SetActive(false);
-
-        if (pauseGameOnMenu)
-            Time.timeScale = 1f;
+        Time.timeScale = 1f; // Resume game
     }
 
     void OnDrawGizmosSelected()
