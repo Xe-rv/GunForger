@@ -1,0 +1,33 @@
+{
+  "name": "com.xerv.2d.gunforger.tools",
+  "version": "1.0.0",
+  "displayName": "GunForger",
+  "description": "A modular ranged player weapons creation system made for 2D Unity Engine Projects.",
+  "unity": "2022.3",
+  "unityRelease": "62f2",
+  "keywords": [
+    "Weapons",
+    "Tools",
+    "Ranged Weapons",
+    "2D",
+    "Xerv",
+    "System",
+    "Guns",
+    "Gun",
+    "Modular",
+    "Weapon",
+    "Shooter"
+  ],
+  "author": {
+    "name": "Rex Gong",
+    "email": "rexgong2004@gmail.com",
+    "url": "https://github.com/Xe-rv"
+  },
+  "samples": [
+    {
+      "displayName": "Weapon Demos",
+      "description": "Contains all the necessary assets for 2 sample scenes",
+      "path": "Samples~/Demos"
+    }
+  ]
+}
