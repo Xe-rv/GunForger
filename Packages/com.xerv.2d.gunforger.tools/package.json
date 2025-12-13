@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "displayName": "GunForger",
   "description": "A modular ranged player weapons creation system made for 2D Unity Engine Projects.",
-  "documentationUrl": "https://github.com/Xerv/Gun-System/Packages/com.xerv.2d.gunforger.tools/Documentation~/GunForger_Documentation-1.0.0.pdf",
+  "documentationUrl": "https://github.com/Xe-rv/Gun-System/blob/main/Packages/com.xerv.2d.gunforger.tools/Documentation~/GunForger_Documentation-1.0.0.pdf",
   "dependencies": {
     "com.unity.textmeshpro": "3.0.7"
   },
