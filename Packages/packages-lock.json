@@ -222,10 +222,12 @@
       "url": "https://packages.unity.com"
     },
     "com.xerv.2d.gunforger.tools": {
-      "version": "file:GunForger",
+      "version": "file:com.xerv.2d.gunforger.tools",
       "depth": 0,
       "source": "embedded",
-      "dependencies": {}
+      "dependencies": {
+        "com.unity.textmeshpro": "3.0.7"
+      }
     },
     "com.unity.modules.ai": {
       "version": "1.0.0",
